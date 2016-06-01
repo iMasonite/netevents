@@ -29,7 +29,7 @@ public class DisconnectPacket implements Packet {
   
   @Override
   public void handle(Forwarder session) {
-    session.getPlugin().getLogger().info("Disconnected from " + session + ": " + disconnectMessage);
+    session.getPlugin().getLogger().fine("Disconnected from " + session + ": " + disconnectMessage);
     try {
       session.close();
     }
