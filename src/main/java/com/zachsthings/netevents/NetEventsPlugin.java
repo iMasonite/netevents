@@ -47,7 +47,7 @@ public class NetEventsPlugin extends JavaPlugin {
   public void onEnable() {
     this.saveDefaultConfig();
     getConfig().options().copyDefaults(true);
-    uidHolder = new ServerUUID(getDataFolder().toPath().resolve("uuid.dat"));
+    uidHolder = new ServerUUID(getDataFolder().toPath().resolve("uuid.json"));
     handlerQueue = new PacketHandlerQueue(this);
     handlerQueue.schedule();
     reconnectTask = new ReconnectTask();

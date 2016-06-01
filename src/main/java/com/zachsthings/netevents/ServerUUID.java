@@ -7,13 +7,18 @@
 
 package com.zachsthings.netevents;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 import java.util.logging.Logger;
+
+import org.bukkit.craftbukkit.libs.com.google.gson.GsonBuilder;
 
 /** Holder for a fixed server UUID field that is persistent */
 class ServerUUID {
@@ -27,13 +32,32 @@ class ServerUUID {
   }
   
   private void load() {
+    
     if (!Files.exists(storeFile)) {
       generateNew();
     }
+    
+    UUID fileUUID;
+    BufferedReader brJSON = null;
+    try {
+      brJSON = new BufferedReader(new FileReader(storeFile.toFile()));
+    }
+    catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    
+    fileUUID = new GsonBuilder().setPrettyPrinting().create().fromJson(brJSON, UUID.class);
+    
+    serverUid = fileUUID;
+    
+    try {
+      brJSON.close();
+    }
+    catch (IOException ex) {
+      ex.printStackTrace();
+    }
+    
     try (DataInputStream str = new DataInputStream(Files.newInputStream(storeFile))) {
-      final long msb = str.readLong();
-      final long lsb = str.readLong();
-      serverUid = new UUID(msb, lsb);
     }
     catch (IOException e) {
       log.warning("Failed to read server UUID, generating new");
@@ -43,12 +67,16 @@ class ServerUUID {
   
   private void generateNew() {
     serverUid = UUID.randomUUID();
-    try (DataOutputStream str = new DataOutputStream(Files.newOutputStream(storeFile))) {
-      str.writeLong(serverUid.getMostSignificantBits());
-      str.writeLong(serverUid.getLeastSignificantBits());
+    
+    String json = new GsonBuilder().setPrettyPrinting().create().toJson(serverUid, UUID.class);
+    
+    try {
+      FileWriter writer = new FileWriter(storeFile.toFile());
+      writer.write(json);
+      writer.close();
     }
-    catch (IOException e) {
-      log.severe("Failed to write new server UUID, may cause issues with plugins expecting persistent UUID");
+    catch (IOException ex) {
+      ex.printStackTrace();
     }
   }
   
