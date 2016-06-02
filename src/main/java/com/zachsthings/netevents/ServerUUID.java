@@ -43,7 +43,10 @@ class ServerUUID {
       brJSON = new BufferedReader(new FileReader(storeFile.toFile()));
     }
     catch (FileNotFoundException e) {
-      e.printStackTrace();
+      log.severe("NetEventsPlugin Error: " + e.getMessage());
+      if (NetEventsPlugin.isDebugMode()) {
+        e.printStackTrace();
+      }
     }
     
     fileUUID = new GsonBuilder().setPrettyPrinting().create().fromJson(brJSON, UUID.class);
@@ -54,7 +57,10 @@ class ServerUUID {
       brJSON.close();
     }
     catch (IOException ex) {
-      ex.printStackTrace();
+      log.severe("NetEventsPlugin Error: " + ex.getMessage());
+      if (NetEventsPlugin.isDebugMode()) {
+        ex.printStackTrace();
+      }
     }
     
     try (DataInputStream str = new DataInputStream(Files.newInputStream(storeFile))) {
@@ -76,7 +82,10 @@ class ServerUUID {
       writer.close();
     }
     catch (IOException ex) {
-      ex.printStackTrace();
+      log.severe("NetEventsPlugin Error: " + ex.getMessage());
+      if (NetEventsPlugin.isDebugMode()) {
+        ex.printStackTrace();
+      }
     }
   }
   

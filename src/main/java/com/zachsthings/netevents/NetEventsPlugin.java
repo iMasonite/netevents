@@ -41,7 +41,7 @@ public class NetEventsPlugin extends JavaPlugin {
   private NetEventsConfig config;
   private ServerUUID uidHolder;
   private SocketWrapper socketWrapper;
-  private boolean debugMode;
+  private static boolean debugMode;
   
   @Override
   public void onEnable() {
@@ -141,7 +141,6 @@ public class NetEventsPlugin extends JavaPlugin {
   }
   
   /** @return Whether or not debug logging is enabled */
-  public boolean hasDebugMode() {
     return debugMode;
   }
   
@@ -149,7 +148,7 @@ public class NetEventsPlugin extends JavaPlugin {
    * 
    * @param message The message to log */
   protected void debug(String message) {
-    if (hasDebugMode()) {
+    if (isDebugMode()) {
       getLogger().warning("[DEBUG] " + message);
     }
   }

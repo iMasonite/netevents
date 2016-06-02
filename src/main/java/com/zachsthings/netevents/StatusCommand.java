@@ -84,7 +84,7 @@ class StatusCommand implements CommandExecutor {
           sender.sendMessage(text(String.format("Server %s UUID: %s", plugin.getServer().getServerName(), plugin.getServerUUID())));
           break;
         case "debug":
-          final boolean debugState = !plugin.hasDebugMode();
+          final boolean debugState = !plugin.isDebugMode();
           plugin.setDebugMode(debugState);
           sender.sendMessage(text("Debug mode ", hl(debugState ? "enabled" : "disabled")));
           break;

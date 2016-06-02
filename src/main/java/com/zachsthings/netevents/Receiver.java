@@ -63,7 +63,10 @@ class Receiver implements Closeable {
       catch (ClosedChannelException ignore) {
       }
       catch (IOException e) {
-        e.printStackTrace();
+        plugin.getLogger().severe("NetEventsPlugin Error: " + e.getMessage());
+        if (NetEventsPlugin.isDebugMode()) {
+          e.printStackTrace();
+        }
       }
     }
   }

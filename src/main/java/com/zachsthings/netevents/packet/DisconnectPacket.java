@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import com.zachsthings.netevents.Forwarder;
+import com.zachsthings.netevents.NetEventsPlugin;
 
 /** Packet sent to notify other side of being disconnected */
 public class DisconnectPacket implements Packet {
@@ -34,7 +35,10 @@ public class DisconnectPacket implements Packet {
       session.close();
     }
     catch (IOException e) {
-      e.printStackTrace();
+      session.getPlugin().getLogger().severe("NetEventsPlugin Error: " + e.getMessage());
+      if (NetEventsPlugin.isDebugMode()) {
+        e.printStackTrace();
+      }
     }
   }
   

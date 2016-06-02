@@ -75,20 +75,7 @@ public class AESSocketWrapper implements SocketWrapper {
      * @param capacity required capacity
      * @return adjusted readTmp buffer */
     private ByteBuffer adjustReadTmp(int capacity) {
-      if (readTmp == null || readTmp.capacity() < capacity || (capacity > 16 && readTmp.capacity() > (4 * capacity))) { // If
-                                                                                                                        // it's
-                                                                                                                        // not
-                                                                                                                        // a
-                                                                                                                        // small
-                                                                                                                        // buffer
-                                                                                                                        // and
-                                                                                                                        // readTmp
-                                                                                                                        // is
-                                                                                                                        // pretty
-                                                                                                                        // large,
-                                                                                                                        // lets
-                                                                                                                        // shrink
-                                                                                                                        // it
+      if (readTmp == null || readTmp.capacity() < capacity || (capacity > 16 && readTmp.capacity() > (4 * capacity))) {
         readTmp = ByteBuffer.allocate(capacity);
       }
       return readTmp;
