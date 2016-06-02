@@ -141,6 +141,7 @@ public class NetEventsPlugin extends JavaPlugin {
   }
   
   /** @return Whether or not debug logging is enabled */
+  public static final boolean isDebugMode() {
     return debugMode;
   }
   
